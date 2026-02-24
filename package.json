@@ -1,0 +1,49 @@
+{
+  "name": "bad-practices-highlighter",
+  "displayName": "Bad Practices Highlighter",
+  "description": "Highlights bad coding practices you want to avoid, fully configurable.",
+  "version": "0.1.0",
+  "publisher": "bruno-local",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Bad Practices Highlighter",
+      "properties": {
+        "badPractices.rules": {
+          "type": "object",
+          "default": {},
+          "description": "Override severity per rule ID. Values: 'error' | 'warning' | 'hint' | 'info' | 'off'.",
+          "additionalProperties": {
+            "type": "string",
+            "enum": ["error", "warning", "hint", "info", "off"]
+          }
+        },
+        "badPractices.lintOnType": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run analysis while typing (not just on save)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
