@@ -3,7 +3,18 @@
   "displayName": "Bad Practices Highlighter",
   "description": "Highlights bad coding practices you want to avoid, fully configurable.",
   "version": "0.1.0",
-  "publisher": "bruno-local",
+  "publisher": "avoid-bad-practices-amerele",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amerele/avoid-bad-practices"
+  },
+  "keywords": ["linter", "bad practices", "code quality", "javascript", "typescript"],
+  "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
   },
