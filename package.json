@@ -2,7 +2,7 @@
   "name": "bad-practices-highlighter",
   "displayName": "Bad Practices Highlighter",
   "description": "Highlights bad coding practices you want to avoid, fully configurable.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "avoid-bad-practices-amerele",
   "icon": "icon.png",
   "galleryBanner": {
