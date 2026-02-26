@@ -8,7 +8,7 @@ export const noMagicNumbers: Rule = {
   id: "no-magic-numbers",
   description: "Magic number — extract to a named constant",
   languages: ["javascript", "typescript", "javascriptreact", "typescriptreact"],
-  defaultSeverity: "warning",
+  defaultSeverity: "hint",
 
   check(doc) {
     const diagnostics: vscode.Diagnostic[] = [];
@@ -19,7 +19,6 @@ export const noMagicNumbers: Rule = {
 
     // 0 or 1
     const isNormalNumber = /(?<![a-zA-Z_$.])\b([2-9]\d*|[1-9]\d+)\b/g;
-
     lines.forEach((line: string, i: number) => {
       const trimLine = line.trimStart();
       const isCodeComment =
