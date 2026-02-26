@@ -5,7 +5,7 @@ import { Rule } from './rule';
 
 const REASON = 'Avoid await inside loops — use Promise.all() to run async calls in parallel';
 const AWAIT_KEYWORD = 'await';
-const LOOP_PATTERN = /\b(for|while|do)\b/;
+const LOOP_PATTERN = /\b(for|forEach|while|do)\b/;
 const AWAIT_PATTERN = /\bawait\b/;
 
 export const noAsyncInFor: Rule = {
@@ -26,13 +26,14 @@ export const noAsyncInFor: Rule = {
 
       const openCount = (line.match(/\{/g) ?? []).length;
       const closeCount = (line.match(/\}/g) ?? []).length;
-
-      if (LOOP_PATTERN.test(line) && openCount > 0) {
-        loopDepths.push(braceDepth + openCount);
-      }
+      const isLoopLine = LOOP_PATTERN.test(line);
 
       braceDepth += openCount - closeCount;
-      loopDepths = loopDepths.filter(d => d > braceDepth);
+      loopDepths = loopDepths.filter(d => d <= braceDepth);
+
+      if (isLoopLine && openCount > closeCount) {
+        loopDepths.push(braceDepth);
+      }
 
       if (loopDepths.length === 0 || !AWAIT_PATTERN.test(line)) { return; }
 
