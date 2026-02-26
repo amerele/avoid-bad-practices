@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { analyze } from './engine';
-import { shouldLintOnType } from './config';
+import { shouldLintOnType, getRcFilePath } from './config';
 
 let diagnosticCollection: vscode.DiagnosticCollection;
 
@@ -17,6 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
     diagnosticCollection.delete(doc.uri);
   }
 
+  function relintAll() {
+    vscode.workspace.textDocuments.forEach(lint);
+  }
+
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument(lint),
     vscode.workspace.onDidSaveTextDocument(lint),
@@ -27,15 +31,20 @@ export function activate(context: vscode.ExtensionContext) {
     }),
 
     vscode.workspace.onDidChangeConfiguration(e => {
-      if (e.affectsConfiguration('badPractices')) {
-        vscode.workspace.textDocuments.forEach(lint);
-      }
+      if (e.affectsConfiguration('badPractices')) { relintAll(); }
     })
   );
 
-  vscode.workspace.textDocuments.forEach(lint);
+  const rcPath = getRcFilePath();
+  if (rcPath) {
+    const watcher = vscode.workspace.createFileSystemWatcher(rcPath);
+    watcher.onDidChange(relintAll);
+    watcher.onDidCreate(relintAll);
+    watcher.onDidDelete(relintAll);
+    context.subscriptions.push(watcher);
+  }
 
-  console.log('[bad-practices] Extension activated.');
+  relintAll();
 }
 
 export function deactivate() {
